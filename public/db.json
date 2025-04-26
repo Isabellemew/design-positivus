@@ -9,7 +9,7 @@
         { "id": 3, "name": "Лесная тишина", "price": "18000 tg", "img": "./src/assets/les.png", "author": "Ivanov Sketch" },
         { "id": 4, "name": "Городская ночь", "price": "30000 tg", "img": "./src/assets/nightcity.png", "author": "Sophia Colors" },
         { "id": 5, "name": "Цветочный рассвет", "price": "22000 tg", "img": "./src/assets/flowersun.png", "author": "Daria Bloom" },
-        { "id": 6, "name": "Океанская глубина", "price": "27000 tg", "img": "./src/assets/con.jpg", "author": "Alex Deep" }, 
+        { "id": 6, "name": "Океанская глубина", "price": "27000 tg", "img": "./src/assets/lal.jpg", "author": "Alex Deep" }, 
         { "id": 7, "name": "Картина 'Горы'", "price": "25000 tg", "img": "./src/assets/kart.png", "author":"postMalone" }
       ]
     },

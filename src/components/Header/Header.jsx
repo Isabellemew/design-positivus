@@ -21,7 +21,7 @@ const Header = () => {
   const [results, setResults] = useState([]);
 
   const handleSearch = async () => {
-    const res = await fetch(`/products/search?q=${searchQuery}`);
+    const res = await fetch(`${API_URL}/products/search?q=${searchQuery}`);
     const data = await res.json();
     setResults(data);
 };
