@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { CartContext } from "../Cart/CartContext"; 
+import { useNavigate, useParams } from 'react-router-dom';
 import "./Categories.css";
 
 const Categories = () => {
+  const navigate = useNavigate();
+  const { categoryName } = useParams();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,8 +15,10 @@ const Categories = () => {
   const modalRef = useRef(null);
   const { addToCart } = useContext(CartContext);
 
+  const API_URL = "http://localhost:8080/api";
+
   useEffect(() => {
-    fetch("/db.json")
+    fetch(`${API_URL}/products`)
       .then(response => {
         if (!response.ok) {
           throw new Error("Не удалось загрузить данные");
@@ -21,18 +26,45 @@ const Categories = () => {
         return response.json();
       })
       .then(data => {
-        setCategories(data.categories);
+        setCategories(data);
         setLoading(false);
+        
+        // Если есть categoryId в URL, открываем модальное окно с этой категорией
+        if (categoryName) {
+          const category = data.find(cat => cat.id === parseInt(categoryName));
+          if (category) {
+            setSelectedCategory(category);
+            setIsModalOpen(true);
+            
+            // Если есть productId в URL, выбираем этот продукт
+            const pathParts = window.location.pathname.split('/');
+            const productId = pathParts[pathParts.length - 1];
+            if (productId && !isNaN(productId)) {
+              const product = category.products.find(p => p.id === parseInt(productId));
+              if (product) {
+                setSelectedProduct(product);
+              } else {
+                setSelectedProduct(category.products[0]);
+              }
+            } else {
+              setSelectedProduct(category.products[0]);
+            }
+            // Плавно прокручиваем к верху страницы
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+        }
       })
       .catch(error => {
         console.error("Ошибка загрузки данных:", error);
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [categoryName]);
 
   useEffect(() => {
-
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         closeModal();
@@ -52,11 +84,17 @@ const Categories = () => {
     setSelectedCategory(category);
     setSelectedProduct(category.products[0]);
     setIsModalOpen(true);
+    navigate(`/category/${category.id}`);
+    // Плавно прокручиваем к верху страницы
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    
+    navigate('/');
     setTimeout(() => {
       setSelectedCategory(null);
       setSelectedProduct(null);
@@ -68,6 +106,17 @@ const Categories = () => {
       event.stopPropagation(); 
     }
     setSelectedProduct(product);
+  };
+
+  const handleProductClick = (productId) => {
+    if (selectedCategory) {
+      const product = selectedCategory.products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
+        const categoryId = selectedCategory.id;
+        navigate(`/category/${categoryId}/product/${productId}`, { replace: true });
+      }
+    }
   };
 
   const handleAddToCart = (product, event) => {
@@ -129,11 +178,20 @@ const Categories = () => {
               
               <div className="product-display">
                 <div className="main-product">
-                  <div className="main-product-image">
+                  <div 
+                    className="main-product-image" 
+                    onClick={() => handleProductClick(selectedProduct.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <img src={selectedProduct.img} alt={selectedProduct.name} />
                   </div>
                   <div className="main-product-info">
-                    <h4>{selectedProduct.name}</h4>
+                    <h4 
+                      onClick={() => handleProductClick(selectedProduct.id)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {selectedProduct.name}
+                    </h4>
                     <p className="price">{selectedProduct.price}</p>
                     {selectedProduct.author && <p className="author">Автор: {selectedProduct.author}</p>}
                     <button 
@@ -152,12 +210,12 @@ const Categories = () => {
                       <div 
                         className={`product-card ${selectedProduct.id === product.id ? "selected" : ""}`}
                         key={product.id} 
-                        onClick={(e) => selectProduct(product, e)}
+                        onClick={() => handleProductClick(product.id)}
+                        style={{ cursor: 'pointer' }}
                       >
                         <div className="product-image">
                           <img src={product.img} alt={product.name} />
                         </div>
-                       
                         <button 
                           className="add-to-cart-btn" 
                           onClick={(e) => handleAddToCart(product, e)}
@@ -173,7 +231,7 @@ const Categories = () => {
           </div>
         </div>
       )}
-      </section>
+    </section>
   );
 };
 

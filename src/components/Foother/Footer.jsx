@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../assets/logo.png";
 import "./Footer.css";
 
 const Footer = () => {
@@ -7,7 +6,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         {/* Логотип */}
-        <img src={logo} alt="Логотип" className="footer-logo" />
+        <img src="/logo.png" alt="Логотип" className="footer-logo" />
 
         {/* Текст */}
         <h1>INSPIRO </h1>

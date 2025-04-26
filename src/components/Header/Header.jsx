@@ -21,11 +21,44 @@ const Header = () => {
   const [results, setResults] = useState([]);
 
   const handleSearch = async () => {
-    const res = await fetch(`${API_URL}/products/search?q=${searchQuery}`);
-    const data = await res.json();
-    setResults(data);
-};
-// ллплапладжвлпжа
+    try {
+      const res = await fetch(`${API_URL}/products`);
+      const data = await res.json();
+      
+      // Фильтруем все товары из всех категорий
+      const allProducts = data.flatMap(category => 
+        category.products ? category.products.map(product => ({
+          ...product,
+          categoryId: category.id,
+          categoryName: category.name
+        })) : []
+      );
+      
+      const filteredProducts = allProducts.filter(product => {
+        if (!product) return false;
+        
+        const searchLower = searchQuery.toLowerCase();
+        const nameMatch = product.name ? product.name.toLowerCase().includes(searchLower) : false;
+        const authorMatch = product.author ? product.author.toLowerCase().includes(searchLower) : false;
+        
+        return nameMatch || authorMatch;
+      });
+      
+      setResults(filteredProducts);
+    } catch (error) {
+      console.error('Ошибка при поиске:', error);
+      setResults([]);
+    }
+  };
+
+  // Добавляем обработчик изменения input
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value === '') {
+      setResults([]);
+    }
+  };
+
   const toggleAuthModal = () => {
     setShowAuthModal(!showAuthModal);
     if (!showAuthModal) {
@@ -114,6 +147,12 @@ const Header = () => {
     }
   };
 
+  const handleProductClick = (productId, categoryId) => {
+    navigate(`/category/${categoryId}/product/${productId}`, { replace: true });
+    setSearchQuery('');
+    setResults([]);
+  };
+
   return (
     <header className="header">
       <div className="top-bar">
@@ -131,23 +170,37 @@ const Header = () => {
             <li><span className="nav-link">Контакты</span></li>
           </ul>
         </nav>
-        {/* тммватщвапавоо */}
         <div className="search-bar">
           <input
             type="text"
             placeholder="Поиск по сайту"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
           <button onClick={handleSearch}>🔍</button>
+          
+          {results.length > 0 && (
+            <div className="search-results">
+              {results.map(product => (
+                <div 
+                  key={product.id} 
+                  className="search-result-item"
+                  onClick={() => handleProductClick(product.id, product.categoryId)}
+                >
+                  <img src={product.img} alt={product.name} />
+                  <div className="search-result-info">
+                    <h4>{product.name}</h4>
+                    <p>{product.price}</p>
+                    <p>Автор: {product.author}</p>
+                    <p>Категория: {product.categoryName}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        <ul>
-    {results.map(product => (
-        <li key={product.id}>{product.name}</li>
-    ))}
-</ul>
-{/* дллазщлзлзщл */}
         <div className="account-icon" onClick={toggleAuthModal}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path
