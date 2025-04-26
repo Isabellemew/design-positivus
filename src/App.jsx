@@ -15,18 +15,7 @@ import Cont from "./components/Cont/Cont";
 import axios from 'axios';
 
 function App() {
-  const [data, setData] = useState("");
 
-  const userData = {
-    username: "exampleUser",  // Пример данных
-    password: "examplePassword"
-  };
-
-  useEffect(() => {
-    axios.post('http://localhost:8080/api/users', { name: "Aisha" })
-      .then(res => setData(res.data.message))
-      .catch(err => console.error("Ошибка при подключении к бэкенду:", err));
-  }, []);
 
   return (
     <CartProvider>
@@ -40,7 +29,6 @@ function App() {
         <Cart />
         <Faq />
         <Cont />
-        <h1 style={{ textAlign: "center", color: "green" }}>{data}</h1> {/* Показываем сообщение от бэка */}
         <Footer />
       </Router>
     </CartProvider>
