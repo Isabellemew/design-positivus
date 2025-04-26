@@ -1,0 +1,50 @@
+.slider {
+  position: relative;
+  width: 100vw;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0px; /* Убирает отступ сверху */
+  padding-top: 0;
+}
+.slide-image {
+  width: 100vw;  /* Полная ширина экрана */
+  height: auto;  /* Автоматическая высота для сохранения пропорций */
+  max-height: 100vh; /* Не превышает высоту экрана */
+  object-fit: contain; /* Сохраняет пропорции и помещается в контейнер */
+}
+/* Стили для кнопок-стрелок */
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border: 1px solid #c8b8a8; /* Цвет рамки */
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.slider-button.prev {
+  left: 5%;
+}
+
+.slider-button.next {
+  right: 5%;
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+}
+
+.slider-button:hover {
+  background-color: rgba(200, 184, 168, 0.2);
+}

@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: rgb(0, 0, 0);
+  ;
+  font-family: "Montserrat";
+}
+body::-webkit-scrollbar {
+  width: 0.25rem;
+}
+body::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #b9ff66;
+}
+body {
+  background: rgb(233, 205, 168);
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+
+.mySwiper {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.swiper {
+  mix-blend-mode: luminosity;
+  margin-bottom: 70px;
+}
+.popular-products {
+  font-size: 32px; /* Размер текста */
+  font-weight: bold; /* Жирный шрифт */
+  color: #000000; /* Оранжевый цвет */
+  font-family: 'Montserrat', sans-serif; /* Шрифт */
+  text-align: center; /* Выравнивание по центру */
+  margin-bottom: 20px; /* Отступ снизу */
+}
+
+
+

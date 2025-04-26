@@ -1,0 +1,61 @@
+{
+  "categories": [
+    {
+      "name": "Картины",
+      "img": "./src/assets/kartina.png",
+      "products": [
+        { "id": 1, "name": "Морской бриз", "price": "20000 tg", "img": "./src/assets/more.png", "author": "ChrisToni"},
+        { "id": 2, "name": "Закат в горах", "price": "25000 tg", "img": "./src/assets/gory.png", "author": "Elena Art" },
+        { "id": 3, "name": "Лесная тишина", "price": "18000 tg", "img": "./src/assets/les.png", "author": "Ivanov Sketch" },
+        { "id": 4, "name": "Городская ночь", "price": "30000 tg", "img": "./src/assets/nightcity.png", "author": "Sophia Colors" },
+        { "id": 5, "name": "Цветочный рассвет", "price": "22000 tg", "img": "./src/assets/flowersun.png", "author": "Daria Bloom" },
+        { "id": 6, "name": "Океанская глубина", "price": "27000 tg", "img": "./src/assets/con.jpg", "author": "Alex Deep" }, 
+        { "id": 7, "name": "Картина 'Горы'", "price": "25000 tg", "img": "./src/assets/kart.png", "author":"postMalone" }
+      ]
+    },
+    {
+      "name": "Дизайнерская мебель",
+      "img": "./src/assets/sofa.png",
+      "products": [
+        { "id": 1, "name": "Диван 'Лофт'", "price": "120000 tg", "img": "./src/assets/loft.png", "author": "diamendo" },
+        { "id": 2, "name": "Кресло 'Минимал'", "price": "85000 tg", "img": "./src/assets/kreslo.jpg", "author": "Durdumong" },
+        { "id": 3, "name": "Стол 'Сканди'", "price": "95000 tg", "img": "./src/assets/stol.jpg", "author": "Blooming" },
+        { "id": 4, "name": "Комод 'Ретро'", "price": "110000 tg", "img": "./src/assets/retro.jpg", "author": "Mileniono" },
+        { "id": 5, "name": "Тумба 'Эко'", "price": "60000 tg", "img": "./src/assets/eco.jpg", "author:": "Richarello" }
+    ]
+    },
+    {
+      "name": "Одежда",
+      "img": "./src/assets/odezda.png",
+      "products": [
+        { "id": 1, "name": "Футболка 'Basic'", "price": "7000 tg", "img": "./src/assets/basic.jpg", "author": "Armando" },
+        { "id": 2, "name": "Куртка 'Зима'", "price": "35000 tg", "img": "./src/assets/zima.jpg", "author": "Dominico" },
+        { "id": 3, "name": "Джинсы 'Casual'", "price": "25000 tg", "img": "./src/assets/jeans.jpg", "author": "Namiiso" },
+        { "id": 4, "name": "Свитер 'Warm'", "price": "18000 tg", "img": "./src/assets/sweater.jpg", "author": "Rolectan" },
+        { "id": 5, "name": "Кроссовки 'Sport'", "price": "40000 tg", "img": "./src/assets/sneakers.jpg", "author":"Romanio" }
+    ]
+    },
+    {
+      "name": "Посуда",
+      "img": "./src/assets/posuda.png",
+      "products": [
+        { "id": 7, "name": "Чашка 'Ретро'", "price": "5000 tg", "img": "./src/assets/sha.jpg", "author": "Balemcina" },
+        { "id": 8, "name": "Тарелка 'Дерево'", "price": "12000 tg", "img": "./src/assets/dere.jpg", "author":"Favelo" },
+        { "id": 9, "name": "Чайник 'Классика'", "price": "18000 tg", "img": "./src/assets/teapot.jpg", "author": "sulliatelle" },
+        { "id": 10, "name": "Столовый набор 'Эко'", "price": "25000 tg", "img": "./src/assets/dinner-set.jpg", "author":"bocconi" },
+        { "id": 11, "name": "Кофейная кружка 'Мрамор'", "price": "7000 tg", "img": "./src/assets/mug.jpg","author": "levicoc" }
+    ]
+    },
+    {
+      "name": "Статуэтки",
+      "img": "./src/assets/stat.png",
+      "products": [
+        { "id": 9, "name": "Статуэтка 'Кот'", "price": "15000 tg", "img": "./src/assets/cat_statue.jpg", "author":"winowr"},
+        { "id": 10, "name": "Статуэтка 'Сова'", "price": "18000 tg", "img": "./src/assets/owl_statue.jpg", "author":"qa" },
+        { "id": 11, "name": "Статуэтка 'Лев'", "price": "22000 tg", "img": "./src/assets/lion_statue.jpg", "author": "marvellos" },
+        { "id": 12, "name": "Статуэтка 'Ангел'", "price": "20000 tg", "img": "./src/assets/angel_statue.jpg", "author": "locaione" },
+        { "id": 13, "name": "Статуэтка 'Дракон'", "price": "25000 tg", "img": "./src/assets/dragon_statue.jpg", "author": "nubiro" }
+    ]
+    }
+  ]
+}

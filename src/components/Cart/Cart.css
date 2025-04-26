@@ -1,0 +1,51 @@
+.cart-container {
+    position: fixed; 
+    top: 1000px;
+    right: 20px;
+    transition: top 0.3s ease-in-out; 
+  }
+  
+  .cart-button {
+    background-color: #eab676;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: "Montserrat";
+  }
+  
+  .cart-modal {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .cart-modal h2, .cart-modal h3 {
+    margin: 10px 0;
+  }
+  
+  .cart-modal input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .cart-modal button {
+    width: 100%;
+    padding: 10px;
+    background: #eab676;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  

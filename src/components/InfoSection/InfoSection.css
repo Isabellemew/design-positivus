@@ -1,0 +1,10 @@
+.info-section {
+    width: 100vw; /* На всю ширину экрана */
+    height: 12vw;
+    background-color: rgb(233, 200, 156); /* Синий фон */
+    padding: 70px 10%; /* Отступы сверху/снизу 40px, слева/справа 10% */
+    color: rgb(0, 0, 0); /* Цвет текста */
+    text-align: center; /* Центрирование текста */
+    font-size: 1.2rem; /* Размер текста */
+  }
+  

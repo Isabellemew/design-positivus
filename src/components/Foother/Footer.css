@@ -1,0 +1,36 @@
+.footer {
+    background-color: rgb(233,205,168);
+    color: rgb(0, 0, 0);
+    padding: 20px 0;
+    text-align: left;
+}
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выровнять элементы влево */
+    gap: 10px; /* Отступ между элементами */
+    padding-left: 20px; /* Добавить отступ слева */
+}
+
+.footer-logo {
+    width: 120px;
+    height: auto;
+    border-radius: 10px; /* Округляем углы */
+}
+
+.footer p {
+    font-size: 14px;
+    margin: 0;
+    font-family: "Montserrat";
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .footer-logo {
+        width: 100px;
+    }
+
+    .footer p {
+        font-size: 12px;
+    }
+}

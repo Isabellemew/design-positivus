@@ -1,0 +1,279 @@
+import React, { useState } from "react";
+import "./Header.css";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
+const API_URL = "http://localhost:8080/api";
+
+const Header = () => {
+  const navigate = useNavigate(); 
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  // дфдфдфд
+  const [results, setResults] = useState([]);
+
+  const handleSearch = async () => {
+    const res = await fetch(`/products/search?q=${searchQuery}`);
+    const data = await res.json();
+    setResults(data);
+};
+// ллплапладжвлпжа
+  const toggleAuthModal = () => {
+    setShowAuthModal(!showAuthModal);
+    if (!showAuthModal) {
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+      });
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+      if (response.data.user) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      alert("Успешный вход!");
+      toggleAuthModal();
+    } catch (err) {
+      alert(err.response?.data?.error || "Неверный email или пароль");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Пароли не совпадают!");
+      setLoading(false);
+      return;
+    }
+    
+    try {
+      const response = await axios.post(`${API_URL}/users`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const loginResponse = await axios.post(`${API_URL}/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (loginResponse.data.token) {
+        localStorage.setItem("token", loginResponse.data.token);
+      }
+
+      if (loginResponse.data.user) {
+        localStorage.setItem("user", JSON.stringify(loginResponse.data.user));
+      }
+
+      alert("Вы вошли как: " + (loginResponse.data.user?.name || "пользователь"));
+      toggleAuthModal();
+      navigate("/home");
+    } catch (err) {
+      alert("Ошибка: " + (err.response?.data?.error || "Произошла ошибка. Попробуйте снова."));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <header className="header">
+      <div className="top-bar">
+        <span className="contact">+7 775 205 77 51 | Пн-Вс с 11:30 до 22:00</span>
+        <span className="delivery">Доставка по всему Казахстану</span>
+      </div>
+
+      <div className="nav-bar">
+        <h1 className="logo">INSPIRO</h1>
+        <nav>
+          <ul>
+            <li><span className="ImageSlider">Главная</span></li>
+            <li><span className="Categories">Категории</span></li>
+            <li><span className="nav-link">Новые товары</span></li>
+            <li><span className="nav-link">Контакты</span></li>
+          </ul>
+        </nav>
+        {/* тммватщвапавоо */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Поиск по сайту"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button onClick={handleSearch}>🔍</button>
+        </div>
+
+        <ul>
+    {results.map(product => (
+        <li key={product.id}>{product.name}</li>
+    ))}
+</ul>
+{/* дллазщлзлзщл */}
+        <div className="account-icon" onClick={toggleAuthModal}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+              stroke="#000000"
+              strokeWidth="2"
+            />
+            <path
+              d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {showAuthModal && (
+        <div className="auth-modal">
+          <div className="auth-modal-overlay" onClick={toggleAuthModal}></div>
+          <div className="auth-modal-content">
+            <button className="close-btn" onClick={toggleAuthModal}>
+              &times;
+            </button>
+
+            <div className="auth-tabs">
+              <button
+                className={`tab-btn ${activeTab === "login" ? "active" : ""}`}
+                onClick={() => handleTabChange("login")}
+              >
+                Вход
+              </button>
+              <button
+                className={`tab-btn ${activeTab === "register" ? "active" : ""}`}
+                onClick={() => handleTabChange("register")}
+              >
+                Регистрация
+              </button>
+            </div>
+
+            <div className="auth-form">
+              {activeTab === "login" ? (
+                <form onSubmit={handleLoginSubmit}>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Введите ваш email"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Пароль</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="Введите пароль"
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="auth-submit-btn" disabled={loading}>
+                    Войти
+                  </button>
+                </form>
+              ) : (
+                <form onSubmit={handleRegisterSubmit}>
+                  <div className="form-group">
+                    <label>Имя</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Введите ваше имя"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Введите ваш email"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Пароль</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="Придумайте пароль"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Подтвердите пароль</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      placeholder="Повторите пароль"
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="auth-submit-btn" disabled={loading}>
+                    Зарегистрироваться
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;
