@@ -139,7 +139,7 @@ const Header = () => {
 
       alert("Вы вошли как: " + (loginResponse.data.user?.name || "пользователь"));
       toggleAuthModal();
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       alert("Ошибка: " + (err.response?.data?.error || "Произошла ошибка. Попробуйте снова."));
     } finally {
