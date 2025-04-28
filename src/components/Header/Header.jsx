@@ -17,8 +17,17 @@ const Header = () => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  // дфдфдфд
   const [results, setResults] = useState([]);
+  const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
+
+  // Категории для выпадающего меню
+  const categories = [
+    { id: 1, name: "Посуда", slug: "dishes" },
+    { id: 2, name: "Статуэтки", slug: "figurines" },
+    { id: 3, name: "Вещи", slug: "items" },
+    { id: 4, name: "Мебель", slug: "furniture" },
+    { id: 5, name: "Картины", slug: "paintings" }
+  ];
 
   const handleSearch = async () => {
     try {
@@ -153,6 +162,26 @@ const Header = () => {
     setResults([]);
   };
 
+  const handleCategoryClick = (categorySlug) => {
+    navigate(`/category/${categorySlug}`);
+    setShowCategoriesDropdown(false);
+  };
+
+  // Функция для перехода на главную страницу
+  const navigateToHome = () => {
+    navigate('/');
+  };
+
+  // Функция для перехода на страницу новых товаров
+  const navigateToNewProducts = () => {
+    navigate('/new-products');
+  };
+
+  // Функция для перехода на страницу контактов
+  const navigateToContacts = () => {
+    navigate('/contacts');
+  };
+
   return (
     <header className="header">
       <div className="top-bar">
@@ -164,10 +193,30 @@ const Header = () => {
         <h1 className="logo">INSPIRO</h1>
         <nav>
           <ul>
-            <li><span className="ImageSlider">Главная</span></li>
-            <li><span className="Categories">Категории</span></li>
-            <li><span className="nav-link">Новые товары</span></li>
-            <li><span className="nav-link">Контакты</span></li>
+            <li><span className="ImageSlider" onClick={navigateToHome}>Главная</span></li>
+            <li className="categories-dropdown">
+              <span 
+                className="Categories" 
+                onClick={() => setShowCategoriesDropdown(!showCategoriesDropdown)}
+              >
+                Категории
+              </span>
+              {showCategoriesDropdown && (
+                <div className="dropdown-content">
+                  {categories.map(category => (
+                    <div 
+                      key={category.id} 
+                      className="dropdown-item"
+                      onClick={() => handleCategoryClick(category.slug)}
+                    >
+                      {category.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </li>
+            <li><span className="nav-link" onClick={navigateToNewProducts}>Новые товары</span></li>
+            <li><span className="nav-link" onClick={navigateToContacts}>Контакты</span></li>
           </ul>
         </nav>
         <div className="search-bar">

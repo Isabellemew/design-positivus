@@ -1,77 +1,177 @@
 .new-products {
   text-align: center;
-  padding: 40px;
-  background: rgb(233,205,168);
-  margin-right: 15px;
+  padding: 40px 20px;
+  background: rgb(233, 205, 168);
+  margin: 40px 0;
 }
 
 .new-products h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: black;
-  font-family: "Montserrat";
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+}
+
+.new-products h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #eab676;
+}
+
+.slider-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .product-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
   text-align: center;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease-in-out;
-  margin-right: 15px;
-}
-
-.product-card:hover {
-  transform: scale(1.05);
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .product-card img {
   width: 100%;
-  height: 180px;
+  height: 140px;
   object-fit: contain;
   border-radius: 8px;
+  transition: transform 0.3s ease;
 }
 
-.product-name {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: normal;
-  font-family: "Montserrat";
+.product-card:hover img {
+  transform: scale(1.05);
 }
 
-/* Дополнительная информация, скрыта по умолчанию */
-.product-info {
+.product-overlay {
   position: absolute;
+  bottom: 0;
   left: 0;
-  bottom: -100%;
-  width: 100%;
-  background: white;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
   padding: 15px;
-  transition: bottom 0.3s ease-in-out;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
 }
 
-/* Показываем блок при ховере */
-.product-card:hover .product-info {
-  bottom: 0;
+.product-card:hover .product-overlay {
+  transform: translateY(0);
+}
+
+.product-overlay p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
 }
 
 .add-to-cart {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #d2b48c;
+  background: #eab676;
   color: white;
   border: none;
+  padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s;
-  font-family: "Montserrat";
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .add-to-cart:hover {
-  background-color: #b3946c;
+  background: #d9a669;
+  transform: translateY(-2px);
+}
+
+.loading, .error {
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+/* Стили для точек слайдера */
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: #eab676;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #d9a669;
+}
+
+/* Стили для стрелок слайдера */
+.slick-prev, .slick-next {
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #eab676;
+  font-size: 30px;
+}
+
+.slick-prev {
+  left: -50px;
+}
+
+.slick-next {
+  right: -50px;
+}
+
+@media (max-width: 768px) {
+  .slick-prev {
+    left: -30px;
+  }
+  
+  .slick-next {
+    right: -30px;
+  }
+  
+  .product-card {
+    height: 200px;
+  }
+  
+  .product-card img {
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-products {
+    padding: 20px 10px;
+  }
+  
+  .slick-prev, .slick-next {
+    display: none !important;
+  }
+  
+  .product-card {
+    height: 180px;
+  }
+  
+  .product-card img {
+    height: 100px;
+  }
 }

@@ -251,3 +251,101 @@ nav ul li:hover {
   font-size: 14px;
   color: #666;
 }
+
+/* Стили для выпадающего меню категорий */
+.categories-dropdown {
+  position: relative;
+}
+
+.categories-dropdown .Categories {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  z-index: 1000;
+  margin-top: 10px;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s;
+}
+
+.categories-dropdown:hover .dropdown-content,
+.dropdown-content:hover,
+.categories-dropdown .Categories:focus + .dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  padding: 12px 20px;
+  font-size: 15px;
+  color: #333;
+  transition: all 0.2s;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f2e9;
+  color: #d4a373;
+  padding-left: 25px;
+}
+
+/* Стрелка выпадающего меню */
+.categories-dropdown .Categories:after {
+  content: '▼';
+  font-size: 10px;
+  margin-left: 5px;
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.categories-dropdown:hover .Categories:after {
+  transform: rotate(180deg);
+}
+
+/* Анимация появления выпадающего меню */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-content {
+  animation: fadeIn 0.3s;
+}
+
+/* Медиа-запрос для адаптивности */
+@media screen and (max-width: 768px) {
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    background-color: #f5f5f5;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-radius: 0;
+  }
+  
+  .categories-dropdown {
+    width: 100%;
+  }
+  
+  .categories-dropdown .Categories:after {
+    float: right;
+  }
+}
