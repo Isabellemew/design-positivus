@@ -23,6 +23,8 @@ const Layout = ({ children }) => (
     <Header />
     <ImageSlider/>
     <InfoSection/>
+    <Categories/>
+    <Cart/>
     {children}
     <Footer />
   </>
@@ -30,19 +32,15 @@ const Layout = ({ children }) => (
 
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="newps" element={<Newps />} />
-            <Route path="contacts" element={<ContactsPage />} />
-            <Route path="category/:categoryName" element={<Categories />} />
-            <Route path="category/:categoryName/product/:productId" element={<Categories />} />
-          </Route>
-        </Routes>
-      </Router>
-    </CartProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />} />
+        <Route path="/newps" element={<Newps />} />
+        <Route path="/contacts" element={<ContactsPage />} />
+        <Route path="category/:categoryName" element={<Categories />} />
+        <Route path="category/:categoryName/product/:productId" element={<Categories />} />
+      </Routes>
+    </Router>
   );
 }
 

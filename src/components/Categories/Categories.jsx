@@ -13,7 +13,7 @@ const Categories = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
-  const { addToCart } = useContext(CartContext);
+  const addToCart  = useContext(CartContext);
 
   const API_URL = "http://localhost:8080/api";
 

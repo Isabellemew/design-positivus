@@ -8,7 +8,6 @@ const ContactsPage = () => {
   return (
     <div>
       <Header />
-      <h1>Контакты</h1>
       <Faq />
       <Cont />
       <Footer />

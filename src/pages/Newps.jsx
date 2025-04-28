@@ -14,7 +14,6 @@ const Newps = () => {
         <Header />
         <Painti />
         <News />
-        <a href="/newps">Новые товары</a>
         <Footer />
     </>
   );

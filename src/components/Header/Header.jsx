@@ -195,35 +195,35 @@ const Header = () => {
         <nav>
           <ul>
           <li>
-  <Link to="/" className="ImageSlider">Главная</Link>
-</li>
-<li className="categories-dropdown">
-  <span 
-    className="Categories" 
-    onClick={() => setShowCategoriesDropdown(!showCategoriesDropdown)}
-  >
-    Категории
-  </span>
-  {showCategoriesDropdown && (
-    <div className="dropdown-content">
-      {categories.map(category => (
-        <Link 
-          key={category.id} 
-          to={`/category/${category.slug}`}  // Используем Link с динамическим путем для категорий
-          className="dropdown-item"
-        >
-          {category.name}
-        </Link>
-      ))}
-    </div>
-  )}
-</li>
-<li>
-<a href="/newps">Новые товары</a> {/* Ссылка на страницу новых товаров */}
-</li>
-<li>
-  <Link to="/contacts" className="nav-link">Контакты</Link>  {/* Ссылка на страницу контактов */}
-</li>
+            <Link to="/" className="ImageSlider">Главная</Link>
+          </li>
+          <li className="categories-dropdown">
+            <span 
+              className="Categories" 
+              onClick={() => setShowCategoriesDropdown(!showCategoriesDropdown)}
+            >
+              Категории
+            </span>
+              {showCategoriesDropdown && (
+                <div className="dropdown-content">
+                  {categories.map(category => (
+                    <Link 
+                      key={category.id} 
+                      to={`/category/${category.slug}`}  // Используем Link с динамическим путем для категорий
+                      className="dropdown-item"
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </li>
+            <li>
+              <Link to="/newps">Новые товары</Link>
+            </li>
+            <li>
+              <Link to="/contacts" className="nav-link">Контакты</Link>  {/* Ссылка на страницу контактов */}
+            </li>
           </ul>
         </nav>
         <div className="search-bar">

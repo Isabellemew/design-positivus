@@ -6,7 +6,7 @@ import { CartContext } from "../Cart/CartContext";
 import "./News.css";
 
 const NewProductsSlider = () => {
-  const { addToCart } = useContext(CartContext);
+  const addToCart = useContext(CartContext);
   const [hoveredProduct, setHoveredProduct] = useState(null);
 
   const newProducts = [
