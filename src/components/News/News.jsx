@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -8,61 +8,49 @@ import "./News.css";
 const NewProductsSlider = () => {
   const { addToCart } = useContext(CartContext);
   const [hoveredProduct, setHoveredProduct] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/products');
-        if (!response.ok) {
-          throw new Error('Не удалось загрузить товары');
-        }
-        const data = await response.json();
-        
-        // Получаем все товары из всех категорий
-        const allProducts = data.flatMap(category => 
-          category.products ? category.products.map(product => ({
-            ...product,
-            categoryId: category.id,
-            categoryName: category.name
-          })) : []
-        );
-        
-        // Сортируем товары по ID в обратном порядке и берем первые 5
-        const lastFiveProducts = allProducts
-          .sort((a, b) => b.id - a.id)
-          .slice(0, 5);
-        
-        setProducts(lastFiveProducts);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (loading) {
-    return (
-      <section id="News" className="new-products">
-        <h2>Новые товары</h2>
-        <div className="loading">Загрузка...</div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section id="News" className="new-products">
-        <h2>Новые товары</h2>
-        <div className="error">{error}</div>
-      </section>
-    );
-  }
+  const newProducts = [
+    {
+      id: 28,
+      name: "Картина",
+      price: "17000",
+      img: "/news1.png",
+      author: "Masha",
+      categoryId: 1
+    },
+    {
+      id: 29,
+      name: "Тумбочка",
+      price: "46000",
+      img: "/news2.jpg",
+      author: "Alejanro",
+      categoryId: 2
+    },
+    {
+      id: 30,
+      name: "Бежевый лук",
+      price: "57000",
+      img: "/news3.jpg",
+      author: "Mishelle",
+      categoryId: 3
+    },
+    {
+      id: 31,
+      name: "Розовый сервиз",
+      price: "21000",
+      img: "/news4.jpg",
+      author: "Marilla",
+      categoryId: 4
+    },
+    {
+      id: 32,
+      name: "Фарфоровые статуэтки",
+      price: "11000",
+      img: "/news5.jpg",
+      author: "Damina",
+      categoryId: 5
+    }
+  ];
 
   return (
     <section id="News" className="new-products">
@@ -91,7 +79,7 @@ const NewProductsSlider = () => {
           }
         ]}
       >
-        {products.map(product => (
+        {newProducts.map(product => (
           <div
             key={product.id}
             className="product-card"
@@ -103,7 +91,7 @@ const NewProductsSlider = () => {
             {hoveredProduct === product.id && (
               <div className="product-overlay">
                 <p>{product.name}</p>
-                <p>{product.price}</p>
+                <p>{product.price} ₸</p>
                 <p>Автор: {product.author}</p>
                 <button className="add-to-cart" onClick={() => addToCart(product)}>В корзину</button>
               </div>

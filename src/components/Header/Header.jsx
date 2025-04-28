@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Header.css";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const API_URL = "http://localhost:8080/api";
 
@@ -193,30 +194,36 @@ const Header = () => {
         <h1 className="logo">INSPIRO</h1>
         <nav>
           <ul>
-            <li><span className="ImageSlider" onClick={navigateToHome}>Главная</span></li>
-            <li className="categories-dropdown">
-              <span 
-                className="Categories" 
-                onClick={() => setShowCategoriesDropdown(!showCategoriesDropdown)}
-              >
-                Категории
-              </span>
-              {showCategoriesDropdown && (
-                <div className="dropdown-content">
-                  {categories.map(category => (
-                    <div 
-                      key={category.id} 
-                      className="dropdown-item"
-                      onClick={() => handleCategoryClick(category.slug)}
-                    >
-                      {category.name}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </li>
-            <li><span className="nav-link" onClick={navigateToNewProducts}>Новые товары</span></li>
-            <li><span className="nav-link" onClick={navigateToContacts}>Контакты</span></li>
+          <li>
+  <Link to="/" className="ImageSlider">Главная</Link>
+</li>
+<li className="categories-dropdown">
+  <span 
+    className="Categories" 
+    onClick={() => setShowCategoriesDropdown(!showCategoriesDropdown)}
+  >
+    Категории
+  </span>
+  {showCategoriesDropdown && (
+    <div className="dropdown-content">
+      {categories.map(category => (
+        <Link 
+          key={category.id} 
+          to={`/category/${category.slug}`}  // Используем Link с динамическим путем для категорий
+          className="dropdown-item"
+        >
+          {category.name}
+        </Link>
+      ))}
+    </div>
+  )}
+</li>
+<li>
+<a href="/newps">Новые товары</a> {/* Ссылка на страницу новых товаров */}
+</li>
+<li>
+  <Link to="/contacts" className="nav-link">Контакты</Link>  {/* Ссылка на страницу контактов */}
+</li>
           </ul>
         </nav>
         <div className="search-bar">
