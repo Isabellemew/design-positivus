@@ -3,7 +3,7 @@ import { CartContext } from "./CartContext";
 import "./Cart.css";
 
 const Cart = () => {
-  const removeFromCart = useContext(CartContext);
+  const { cartItems, removeFromCart } = useContext(CartContext);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({ fullName: "", phone: "", address: "" });
 
@@ -33,7 +33,6 @@ const Cart = () => {
 
       {isOpen && (
         <div className="cart-modal">
-          {}
           <button 
             className="close-modal" 
             onClick={() => setIsOpen(false)}

@@ -14,17 +14,15 @@ import Cont from "./components/Cont/Cont";
 import HomePage from "./pages/HomePage";
 import ContactsPage from "./pages/ContactsPage";
 import Categories from "./components/Categories/Categories";
-
-import "./App.css";
 import Newps from "../src/pages/Newps";
 
 const Layout = ({ children }) => (
   <>
     <Header />
     <ImageSlider/>
-    <InfoSection/>
     <Categories/>
     <Cart/>
+    <InfoSection/>
     {children}
     <Footer />
   </>
@@ -32,15 +30,17 @@ const Layout = ({ children }) => (
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/newps" element={<Newps />} />
-        <Route path="/contacts" element={<ContactsPage />} />
-        <Route path="category/:categoryName" element={<Categories />} />
-        <Route path="category/:categoryName/product/:productId" element={<Categories />} />
-      </Routes>
-    </Router>
+    <CartProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />} />
+          <Route path="/newps" element={<Newps />} />
+          <Route path="/contacts" element={<ContactsPage />} />
+          <Route path="category/:categoryName" element={<Categories />} />
+          <Route path="category/:categoryName/product/:productId" element={<Categories />} />
+        </Routes>
+      </Router>
+    </CartProvider>
   );
 }
 
