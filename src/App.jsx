@@ -15,6 +15,11 @@ import HomePage from "./pages/HomePage";
 import ContactsPage from "./pages/ContactsPage";
 import Categories from "./components/Categories/Categories";
 import Newps from "../src/pages/Newps";
+import Register from "../src/pages/RegisterPage"
+import Login from "../src/pages/LoginPage"
+import RegisterPage from "../src/pages/RegisterPage"
+import LoginPage from "../src/pages/LoginPage"
+
 
 const Layout = ({ children }) => (
   <>
@@ -38,6 +43,8 @@ function App() {
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="category/:categoryName" element={<Categories />} />
           <Route path="category/:categoryName/product/:productId" element={<Categories />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
     </CartProvider>

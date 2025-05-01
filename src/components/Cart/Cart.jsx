@@ -7,6 +7,13 @@ const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({ fullName: "", phone: "", address: "" });
 
+  // Подсчет общей суммы
+  const totalAmount = cartItems.reduce((total, item) => {
+    // Предполагаем, что price - это строка вида "1000₽"
+    const price = parseInt(item.price.replace(/[^\d]/g, ""));
+    return total + price;
+  }, 0);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsOpen(false);
@@ -27,61 +34,85 @@ const Cart = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Отправка заказа
+    alert(`Заказ оформлен!\nИмя: ${form.fullName}\nТелефон: ${form.phone}\nАдрес: ${form.address}`);
+    // Здесь можно добавить логику отправки заказа на сервер
+  };
+
   return (
     <div className="cart-container">
-      <button className="cart-button" onClick={toggleCart}>🛒</button>
+      <button className="cart-icon" onClick={toggleCart}>
+        {cartItems.length > 0 ? `🛒 ${cartItems.length}` : "🛒"}
+      </button>
 
       {isOpen && (
-        <div className="cart-modal">
-          <button 
-            className="close-modal" 
+        <div className="cart-dropdown">
+          <button
+            className="close-cart"
             onClick={() => setIsOpen(false)}
-            style={{
-              position: "absolute", 
-              top: "6px",
-              right: "10px", 
-              background: "none",
-              border: "none",
-              fontSize: "16px",
-              color: "gray",
-              cursor: "pointer"
-            }}
           >
             ✖
           </button>
-
-          <h2>Корзина</h2>
+          
+          <h3>Корзина</h3>
+          
           {cartItems.length === 0 ? (
-            <p>Корзина пуста</p>
+            <div className="empty-cart">
+              <span>🛍️</span>
+              <p>Ваша корзина пуста</p>
+            </div>
           ) : (
-            <ul>
-              {cartItems.map((item) => (
-                <li 
-                  key={item.id} 
-                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 0" }}
-                >
-                  {item.name} - {item.price}
-                  
-                  <button 
-                    className="remove-item"
-                    onClick={() => removeFromCart(item.id)}
-                    style={{
-                      background: "#e4c0a8",
-                      width: "30px", 
-                      height: "25px",
-                      border: "none",
-                      fontSize: "15px",
-                      cursor: "pointer", 
-                      color: "black", 
-                      lineHeight: "10px", 
-                      marginRight: "5px"
-                    }}
-                  >
-                    🗑
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul className="cart-items">
+                {cartItems.map((item) => (
+                  <li className="cart-item" key={item.id}>
+                    <span>{item.name} - {item.price}</span>
+                    <button
+                      className="remove-item"
+                      onClick={() => removeFromCart(item.id)}
+                      title="Удалить"
+                    >
+                      🗑
+                    </button>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="cart-total">
+                <span>Итого:</span>
+                <span>{totalAmount.toLocaleString()}Tg</span>
+              </div>
+
+              <form className="order-form" onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={form.fullName}
+                  onChange={handleChange}
+                  placeholder="Имя и фамилия"
+                  required
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="Телефон"
+                  required
+                />
+                <input
+                  type="text"
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Адрес доставки"
+                  required
+                />
+                <button type="submit">Оформить заказ</button>
+              </form>
+            </>
           )}
         </div>
       )}

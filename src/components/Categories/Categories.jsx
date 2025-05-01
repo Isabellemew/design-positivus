@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { CartContext } from "../Cart/CartContext"; 
 import { useNavigate, useParams } from 'react-router-dom';
+import Cart from "../Cart/Cart";
 import "./Categories.css";
 
 const Categories = () => {
@@ -13,7 +14,7 @@ const Categories = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
-  const addToCart  = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
   const API_URL = "http://localhost:8080/api";
 
@@ -73,10 +74,15 @@ const Categories = () => {
 
     if (isModalOpen) {
       document.addEventListener("mousedown", handleClickOutside);
+      // Prevent body scrolling when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
 
@@ -155,8 +161,12 @@ const Categories = () => {
   }
 
   return (
-    <section id = "Categories" className="categories">
-      <h2>Выберите товар по категориям</h2>
+    <section id="Categories" className="categories">
+      <div className="categories-header">
+        <h2>Выберите товар по категориям</h2>
+        <Cart />
+      </div>
+      
       <div className="categories-container">
         {categories.map((category, index) => (
           <div className="category-card" key={index} onClick={() => openModal(category)}>
@@ -169,26 +179,25 @@ const Categories = () => {
       </div>
 
       {isModalOpen && selectedCategory && selectedProduct && (
-        <div className={`modal-overlay ${isModalOpen ? "active" : ""}`}>
-          <div className={`modal ${isModalOpen ? "active" : ""}`} ref={modalRef}>
+        <div className={`modal-overlay fullscreen ${isModalOpen ? "active" : ""}`}>
+          <div className={`modal fullscreen ${isModalOpen ? "active" : ""}`} ref={modalRef}>
             <div className="modal-content">
-              <span className="close" onClick={closeModal}>&times;</span>
-              
-              <h3 className="modal-title">{selectedCategory.name}</h3>
+              <div className="modal-header">
+                <h3 className="modal-title">{selectedCategory.name}</h3>
+                <span className="close" onClick={closeModal}>&times;</span>
+              </div>
               
               <div className="product-display">
                 <div className="main-product">
                   <div 
                     className="main-product-image" 
                     onClick={() => handleProductClick(selectedProduct.id)}
-                    style={{ cursor: 'pointer' }}
                   >
                     <img src={selectedProduct.img} alt={selectedProduct.name} />
                   </div>
                   <div className="main-product-info">
                     <h4 
                       onClick={() => handleProductClick(selectedProduct.id)}
-                      style={{ cursor: 'pointer' }}
                     >
                       {selectedProduct.name}
                     </h4>
@@ -204,17 +213,20 @@ const Categories = () => {
                 </div>
                 
                 <div className="products-container">
-                  <h4>Другие товары:</h4>
+                  <h4>Другие товары в категории:</h4>
                   <div className="products-list">
                     {selectedCategory.products.map((product) => (
                       <div 
                         className={`product-card ${selectedProduct.id === product.id ? "selected" : ""}`}
                         key={product.id} 
                         onClick={() => handleProductClick(product.id)}
-                        style={{ cursor: 'pointer' }}
                       >
                         <div className="product-image">
                           <img src={product.img} alt={product.name} />
+                        </div>
+                        <div className="product-card-info">
+                          <p className="product-name">{product.name}</p>
+                          <p className="product-price">{product.price}</p>
                         </div>
                         <button 
                           className="add-to-cart-btn" 

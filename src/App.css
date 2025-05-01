@@ -59,5 +59,17 @@ a {
   margin-bottom: 20px; /* Отступ снизу */
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.dropdown-content.show {
+  display: block;
+}
 
 
