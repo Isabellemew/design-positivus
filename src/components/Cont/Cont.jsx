@@ -8,26 +8,53 @@ const Cont = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // Для отображения процесса отправки
+  const [errorMessage, setErrorMessage] = useState(null); // Для отображения ошибок, если они возникнут
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
   };
+  const API_URL = "http://localhost:8080/api";
 
-  const handleSubmit = (e) => {
+  // Обратите внимание, что handleSubmit теперь является асинхронной функцией
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Форма отправлена:', formData);
-    alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+    setErrorMessage(null); // Сброс предыдущих ошибок
+
+    try {
+      const response = await fetch('http://localhost:8080/api/Message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Произошла ошибка, попробуйте позже.');
+      }
+    } catch (error) {
+      console.error('Ошибка при отправке запроса:', error);
+      setErrorMessage('Не удалось отправить сообщение. Попробуйте позже.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section className="contacts-section" id="cont">
       <div className="container">
         <h2 className="section-title">Контакты</h2>
-        
+
         <div className="contacts-grid">
           <div className="contacts-info">
             <div className="contact-card">
@@ -121,10 +148,12 @@ const Cont = () => {
                 ></textarea>
               </div>
               
-              <button type="submit" className="submit-btn">
-                Отправить сообщение
+              <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
               </button>
             </form>
+
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div>
         </div>
 
