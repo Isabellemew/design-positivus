@@ -1,14 +1,24 @@
-import React, { useState } from "react";
 import "./Header.css";
 import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+  
 
 const Header = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
 
   const API_URL = "http://localhost:8080/api";
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+  
 
   const handleSearch = async () => {
     try {
@@ -89,6 +99,23 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+        {user ? (
+  <>
+    <li><Link to="/profile">Профиль</Link></li>
+    {user.role === "admin" && <li><Link to="/admin">Админ-панель</Link></li>}
+    <li onClick={() => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setUser(null);
+      navigate("/");
+    }}>Выйти</li>
+  </>
+) : (
+  <li className="auth-dropdown">
+    ...
+  </li>
+)}
+
 
         <div className="search-bar">
           <input

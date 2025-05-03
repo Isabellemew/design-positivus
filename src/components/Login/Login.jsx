@@ -32,7 +32,9 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
       });
-      
+
+      console.log("Ответ от сервера:", response.data);
+
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
