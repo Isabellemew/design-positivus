@@ -63,6 +63,13 @@ const Header = () => {
     setResults([]);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/");
+  };
+
   return (
     <header className="header">
       <div className="top-bar">
@@ -77,20 +84,41 @@ const Header = () => {
             <li>
               <Link to="/">Главная</Link>
             </li>
-            <li className="auth-dropdown">
-              <span
-                className="Auth"
-                onClick={() => setShowAuthDropdown(!showAuthDropdown)}
-              >
-                Авторизация
-              </span>
-              {showAuthDropdown && (
-  <div className="auth-dropdown-content">
-    <Link to="/login" className="dropdown-item" onClick={() => setShowAuthDropdown(false)}>Вход</Link>
-    <Link to="/register" className="dropdown-item" onClick={() => setShowAuthDropdown(false)}>Регистрация</Link>
-  </div>
-)}
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <Link to="/admin">Админ-панель</Link>
+                </li>
+                {user.role === "admin" && (
+                  <li>
+                  </li>
+                )}
+                <li>
+                  <span className="logout-link" onClick={handleLogout}>
+                    Выйти
+                  </span>
+                </li>
+              </>
+            ) : (
+              <li className="auth-dropdown">
+                <span
+                  className="Auth"
+                  onClick={() => setShowAuthDropdown(!showAuthDropdown)}
+                >
+                  Авторизация
+                </span>
+                {showAuthDropdown && (
+                  <div className="auth-dropdown-content">
+                    <Link to="/login" className="dropdown-item" onClick={() => setShowAuthDropdown(false)}>
+                      Вход
+                    </Link>
+                    <Link to="/register" className="dropdown-item" onClick={() => setShowAuthDropdown(false)}>
+                      Регистрация
+                    </Link>
+                  </div>
+                )}
+              </li>
+            )}
             <li>
               <Link to="/newps">Новые товары</Link>
             </li>
@@ -99,23 +127,6 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-        {user ? (
-  <>
-    <li><Link to="/profile">Профиль</Link></li>
-    {user.role === "admin" && <li><Link to="/admin">Админ-панель</Link></li>}
-    <li onClick={() => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      setUser(null);
-      navigate("/");
-    }}>Выйти</li>
-  </>
-) : (
-  <li className="auth-dropdown">
-    ...
-  </li>
-)}
-
 
         <div className="search-bar">
           <input

@@ -19,6 +19,7 @@ import Register from "../src/pages/RegisterPage"
 import Login from "../src/pages/LoginPage"
 import RegisterPage from "../src/pages/RegisterPage"
 import LoginPage from "../src/pages/LoginPage"
+import AdminPage from "../src/pages/AdminPage";
 
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="category/:categoryName/product/:productId" element={<Categories />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
     </CartProvider>
