@@ -34,11 +34,41 @@ const Cart = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Отправка заказа
-    alert(`Заказ оформлен!\nИмя: ${form.fullName}\nТелефон: ${form.phone}\nАдрес: ${form.address}`);
-    // Здесь можно добавить логику отправки заказа на сервер
+    try {
+      const response = await fetch("http://localhost:8080/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userID: 1, // временно статично
+          totalAmount: totalAmount,
+          fullName: form.fullName,
+          phone: form.phone,
+          address: form.address,
+          items: cartItems.map(item => ({
+            name: item.name,
+            price: parseInt(item.price.replace(/[^\d]/g, "")) // чистое число
+          }))
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error("Ошибка при оформлении заказа");
+      }
+  
+      const data = await response.json();
+      alert(`✅ Заказ №${data.order_id} успешно оформлен!`);
+  
+      setForm({ fullName: "", phone: "", address: "" });
+      setIsOpen(false);
+      // setCartItems([]); // если есть метод для очистки корзины
+    } catch (error) {
+      console.error(error);
+      alert("❌ Не удалось оформить заказ. Попробуйте снова.");
+    }
   };
 
   return (
